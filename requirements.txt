@@ -6,3 +6,5 @@ torchvision>=0.17
 streamlit>=1.37
 pypdf>=4.0
 pillow>=10.0
+langchain-core>=0.3
+langchain-chroma>=0.2

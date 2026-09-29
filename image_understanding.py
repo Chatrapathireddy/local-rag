@@ -1,23 +1,3 @@
-"""
-image_understanding.py
------------------------
-Local vision-language model (SmolVLM) for understanding uploaded
-images -- diagrams, charts, photos. No API key, runs fully offline
-after the first download.
-
-SmolVLM is natively supported by the transformers library (no custom
-trust_remote_code, no special version pinning needed) and is small
-enough to run reasonably on a CPU-only laptop.
-
-Used in two ways by rag.py:
-1. At ingestion: generate a detailed text DESCRIPTION of the image.
-   This description gets embedded and stored exactly like a text
-   chunk, so the image becomes searchable alongside your documents.
-2. At query time: if an image chunk turns out to be the best match for
-   a question, the vision model is re-run with the user's ACTUAL
-   question asked directly of the image, for a sharper, more specific
-   answer than the static description alone could give.
-"""
 
 from PIL import Image
 

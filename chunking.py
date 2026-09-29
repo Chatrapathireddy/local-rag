@@ -162,7 +162,7 @@ def _split_into_blocks(text: str) -> list[tuple[str, str]]:
     if current_lines:
         raw_blocks.append((current_type, "\n".join(current_lines)))
 
- 
+  
     cleaned: list[tuple[str, str]] = []
     for btype, btext in raw_blocks:
         if btype == "table" and btext.count("\n") < 1:

@@ -1,9 +1,8 @@
-# RAG From Scratch (fully local, no API keys)
+# Local RAG (no API keys)
 
-A minimal but complete Retrieval-Augmented Generation pipeline, built with
-nothing but `numpy`, `sentence-transformers`, and `transformers`. No
-LangChain, no FAISS/Chroma/Pinecone, no OpenAI/Anthropic API calls. Every
-stage is implemented directly so you can see exactly what's happening.
+A local Retrieval-Augmented Generation pipeline using sentence-transformers
+for embeddings, Chroma for persistent vector storage, and transformers for
+generation. No hosted model APIs or API keys are required.
 
 ## Architecture
 
@@ -17,7 +16,7 @@ raw documents
  [embeddings.py]       chunk text -> normalized vectors (sentence-transformers)
       |
       v
- [vector_store.py]     store vectors in a numpy array, cosine-similarity search
+ [Chroma]              persist vectors and metadata, cosine-similarity search
       |
       |   <-- query text also goes through embeddings.py -->
       v
@@ -85,9 +84,7 @@ print(result["answer"])
 for s in result["sources"]:
     print(s["source"], s["chunk_id"], s["score"])
 
-# Persist the vector store so you don't have to re-embed next time
-pipeline.save("my_index/")
-# pipeline.load("my_index/")   # to restore it later
+# Chroma persists automatically in ./chroma_db/
 ```
 
 ## Swapping models

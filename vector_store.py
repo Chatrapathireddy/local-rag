@@ -37,7 +37,6 @@ class VectorStore:
 
         top_k = min(top_k, len(self._chunks))
 
-        # (N,) similarity scores via one matrix-vector product
         scores = self._vectors @ query_vector
 
 

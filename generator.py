@@ -53,9 +53,16 @@ class LocalGenerator:
         ).to(self.device)
 
     def generate(self, question: str, retrieved: list[tuple[float, Chunk]]) -> str:
+        messages = build_prompt(question, retrieved)
+        return self.generate_from_messages(messages)
+
+    def generate_from_messages(self, messages: list[dict]) -> str:
+        """Run the model on a ready-made chat message list
+        ([{"role": "system"|"user", "content": "..."}]). Used directly by
+        the LangChain version, where the prompt is built by a
+        ChatPromptTemplate instead of build_prompt()."""
         import torch
 
-        messages = build_prompt(question, retrieved)
         prompt_text = self.tokenizer.apply_chat_template(
             messages, tokenize=False, add_generation_prompt=True
         )

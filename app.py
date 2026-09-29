@@ -4,9 +4,11 @@ from pathlib import Path
 
 import streamlit as st
 
+from history import clear_history, get_history, initialize_history, save_exchange
 from rag import RAGPipeline
 
 st.set_page_config(page_title="Local RAG", page_icon="🔎")
+initialize_history()
 
 
 @st.cache_resource(show_spinner="Loading models...")
@@ -70,10 +72,27 @@ if st.session_state.image_summaries:
 if st.session_state.ingested_files:
     st.caption(f"Loaded: {', '.join(st.session_state.ingested_files)}")
 
-    question = st.text_input("Your question:")
-    if question.strip():
+    with st.form("question_form"):
+        question = st.text_input("Your question:")
+        submitted = st.form_submit_button("Ask")
+    if submitted and question.strip():
         with st.spinner("Thinking..."):
             result = pipeline.query(question, top_k=3, min_score=0.2)
+        save_exchange(question, result["answer"])
         st.write(result["answer"])
 else:
     st.info("Upload a .txt file or an image above to get started.")
+
+with st.sidebar:
+    st.subheader("Question history")
+    history = get_history()
+    if history:
+        if st.button("Clear history"):
+            clear_history()
+            st.rerun()
+        for entry in history:
+            with st.expander(entry["question"]):
+                st.caption(entry["created_at"])
+                st.write(entry["answer"])
+    else:
+        st.caption("No questions yet.")
