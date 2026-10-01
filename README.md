@@ -59,6 +59,26 @@ pip install -r requirements.txt
 python demo.py
 ```
 
+## FastAPI
+
+Start the API on Windows with `run_api.bat`, or run it directly with:
+
+```bash
+python -m uvicorn api:app --reload
+```
+
+The API is available at `http://127.0.0.1:8000`; interactive docs are at
+`http://127.0.0.1:8000/docs`.
+
+- `GET /health` checks that the API is running.
+- `POST /ingest` accepts `{"documents": {"notes.txt": "document text"}}`.
+- `POST /query` accepts `{"question": "...", "top_k": 3, "min_score": 0.2}`
+  and returns the answer with its source chunks.
+
+The first ingest or query loads the local embedding model. Generation is loaded
+only when a query needs an answer from text. The existing Streamlit interface
+remains available via `run_app.bat`.
+
 First run downloads two models from Hugging Face:
 - `sentence-transformers/all-MiniLM-L6-v2` (~80MB) — embeddings
 - `Qwen/Qwen2.5-1.5B-Instruct` (~3GB) — generation
