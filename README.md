@@ -59,25 +59,18 @@ pip install -r requirements.txt
 python demo.py
 ```
 
-## FastAPI
+## Local app
 
-Start the API on Windows with `run_api.bat`, or run it directly with:
+Start the app on Windows with `run_app.bat`, or run it directly with:
 
 ```bash
-python -m uvicorn api:app --reload
+streamlit run app.py
 ```
 
-The API is available at `http://127.0.0.1:8000`; interactive docs are at
-`http://127.0.0.1:8000/docs`.
-
-- `GET /health` checks that the API is running.
-- `POST /ingest` accepts `{"documents": {"notes.txt": "document text"}}`.
-- `POST /query` accepts `{"question": "...", "top_k": 3, "min_score": 0.2}`
-  and returns the answer with its source chunks.
-
-The first ingest or query loads the local embedding model. Generation is loaded
-only when a query needs an answer from text. The existing Streamlit interface
-remains available via `run_app.bat`.
+The app runs locally in your browser and lets you upload text files or images,
+index them, and ask questions about the content. The first ingest or query loads
+the local embedding model. Generation is loaded only when a query needs an
+answer from text.
 
 First run downloads two models from Hugging Face:
 - `sentence-transformers/all-MiniLM-L6-v2` (~80MB) — embeddings
